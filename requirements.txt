@@ -3,10 +3,11 @@ flask-sqlalchemy
 Flask-WTF
 flask-marshmallow
 marshmallow-sqlalchemy
-pytest
-selenium
 numpy
 requests
-pytest-cov
 scikit-learn
 pandas
+pytest 
+pytest-flask 
+pytest-cov 
+selenium
