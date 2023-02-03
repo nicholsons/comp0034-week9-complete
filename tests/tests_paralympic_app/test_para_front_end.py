@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 def test_home_page_title(chrome_driver, run_app):
@@ -47,9 +48,15 @@ def test_home_nav_link_returns_home(chrome_driver, run_app):
         lambda d: d.find_element(By.ID, "1")
     )
     el_1.click()
+    """
     nav_home = el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "nav-home")
     )
+    """
+    nav_home = el_1 = WebDriverWait(chrome_driver, timeout=3).until(
+        EC.element_to_be_clickable((By.ID, "nav-home"))
+    )
+    # try WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for='cl_login']"))).click()
     nav_home.click()
     url = chrome_driver.current_url
     assert url == "http://127.0.0.1:5000/"
