@@ -54,9 +54,9 @@ def chrome_driver():
         For running on your computer: `headless` to be commented out
     """
     options = Options()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     driver = Chrome(options=options)
-    driver.maximize_window()
+    # driver.maximize_window()
     yield driver
     driver.quit()
 
