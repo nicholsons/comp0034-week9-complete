@@ -42,7 +42,7 @@ def chrome_driver():
     options = Options()
     options.add_argument("--headless")
     driver = Chrome(options=options)
-    # driver.maximize_window()
+    driver.maximize_window()
     yield driver
     driver.quit()
 
