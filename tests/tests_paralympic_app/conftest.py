@@ -76,8 +76,9 @@ def run_app_macos(app, init_multiprocessing):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def run_app_windows():
-    server = subprocess.Popen(["flask", "--app", "project/app", "run"])
+def run_app_windows(app):
+    # server = subprocess.Popen(["flask", "--app", "app", "run"])
+    server = subprocess.Popen(["app.run"])
     try:
         yield server
     finally:
