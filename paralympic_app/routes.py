@@ -5,6 +5,9 @@ from flask import (
     make_response,
     jsonify,
 )
+from sqlalchemy.orm import configure_mappers
+
+configure_mappers()
 from paralympic_app import db
 from paralympic_app.models import Region, Event
 from paralympic_app.schemas import RegionSchema, EventSchema
