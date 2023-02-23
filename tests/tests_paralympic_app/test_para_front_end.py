@@ -3,7 +3,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def test_home_page_title(chrome_driver, run_app):
+def test_home_page_title(chrome_driver, run_app_windows):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -15,7 +15,7 @@ def test_home_page_title(chrome_driver, run_app):
     assert chrome_driver.title == "Paralympics Home"
 
 
-def test_event_detail_page_selected(chrome_driver, run_app):
+def test_event_detail_page_selected(chrome_driver, run_app_windows):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -34,7 +34,7 @@ def test_event_detail_page_selected(chrome_driver, run_app):
     assert "First Games" in text
 
 
-def test_home_nav_link_returns_home(chrome_driver, run_app):
+def test_home_nav_link_returns_home(chrome_driver, run_app_macos):
     """
     GIVEN a running app
     WHEN the homepage is accessed

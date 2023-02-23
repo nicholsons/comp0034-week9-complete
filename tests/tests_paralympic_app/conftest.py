@@ -1,4 +1,5 @@
 import multiprocessing
+import subprocess
 import pytest
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
@@ -62,9 +63,9 @@ def init_multiprocessing():
         pass
 
 
-# Used for Selenium tests
+# Used for Selenium tests with Mac and pytest-flask
 @pytest.fixture(scope="session")
-def run_app(app, init_multiprocessing):
+def run_app_macos(app, init_multiprocessing):
     """
     Fixture to run the Flask app for Selenium tests
     """
@@ -72,6 +73,15 @@ def run_app(app, init_multiprocessing):
     process.start()
     yield process
     process.terminate()
+
+
+@pytest.fixture(scope="session", autouse=True)
+def run_app_windows():
+    server = subprocess.Popen(["flask", "--app", "project/app", "run"])
+    try:
+        yield server
+    finally:
+        server.terminate()
 
 
 # Data for any tests
