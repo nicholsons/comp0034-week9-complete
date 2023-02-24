@@ -34,7 +34,7 @@ def test_event_detail_page_selected(chrome_driver, run_app_windows):
     assert "First Games" in text
 
 
-def test_home_nav_link_returns_home(chrome_driver, run_app_macos):
+def test_home_nav_link_returns_home(chrome_driver, run_app_windows):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -48,15 +48,9 @@ def test_home_nav_link_returns_home(chrome_driver, run_app_macos):
         lambda d: d.find_element(By.ID, "1")
     )
     el_1.click()
-    """
-    nav_home = el_1 = WebDriverWait(chrome_driver, timeout=3).until(
-        lambda d: d.find_element(By.ID, "nav-home")
-    )
-    """
-    nav_home = el_1 = WebDriverWait(chrome_driver, timeout=3).until(
+    nav_home = WebDriverWait(chrome_driver, timeout=3).until(
         EC.element_to_be_clickable((By.ID, "nav-home"))
     )
-    # try WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "label[for='cl_login']"))).click()
     nav_home.click()
     url = chrome_driver.current_url
     assert url == "http://127.0.0.1:5000/"
