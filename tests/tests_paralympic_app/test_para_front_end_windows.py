@@ -1,9 +1,31 @@
+import subprocess
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-def test_home_page_title(chrome_driver, run_app_windows):
+# The multiprocessing fork method is not supported on windows
+@pytest.fixture(scope="module", autouse=True)
+def run_app_win():
+    """Runs the Flask app for live server testing on Windows"""
+    server = subprocess.Popen(
+        [
+            "flask",
+            "--app",
+            "paralympic_app:create_app('paralympic_app.config.TestConfig')",
+            "--port",
+            "5000",
+            "run",
+        ]
+    )
+    try:
+        yield server
+    finally:
+        server.terminate()
+
+
+def test_home_page_title(chrome_driver):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -15,7 +37,7 @@ def test_home_page_title(chrome_driver, run_app_windows):
     assert chrome_driver.title == "Paralympics Home"
 
 
-def test_event_detail_page_selected(chrome_driver, run_app_windows):
+def test_event_detail_page_selected(chrome_driver):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -34,7 +56,7 @@ def test_event_detail_page_selected(chrome_driver, run_app_windows):
     assert "First Games" in text
 
 
-def test_home_nav_link_returns_home(chrome_driver, run_app_windows):
+def test_home_nav_link_returns_home(chrome_driver):
     """
     GIVEN a running app
     WHEN the homepage is accessed
