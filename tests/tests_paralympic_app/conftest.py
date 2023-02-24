@@ -75,10 +75,10 @@ def run_app_macos(app, init_multiprocessing):
     process.terminate()
 
 
+# Work in progress - multiprocessing fork method not supported on windows
 @pytest.fixture(scope="session", autouse=True)
 def run_app_windows(app):
-    # server = subprocess.Popen(["flask", "--app", "app", "run"])
-    server = subprocess.Popen(["app.run"])
+    server = subprocess.Popen(["flask", "--app", "app", "run"])
     try:
         yield server
     finally:
