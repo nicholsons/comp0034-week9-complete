@@ -1,4 +1,3 @@
-import subprocess
 import pytest
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
