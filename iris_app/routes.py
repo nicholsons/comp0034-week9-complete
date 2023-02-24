@@ -17,7 +17,6 @@ def index():
     form = PredictionForm()
 
     if form.validate_on_submit():
-
         # Get all values from the form
         features_from_form = [
             form.sepal_length.data,
@@ -42,7 +41,8 @@ def index():
 def predict():
     """Predict iris species
 
-    Takes the arguments sepal_length,sepal_width,petal_length,petal_width  from an HTTP request. Passes the arguments to the model and returns a prediction (classification of Iris species).
+    Takes the arguments sepal_length,sepal_width,petal_length,petal_width from an HTTP request.
+    Passes the arguments to the model and returns a prediction (classification of Iris species).
 
     Returns:
         species(str): A string of the iris species.
@@ -92,6 +92,7 @@ def iris_list():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """Handles user registration form."""
     form = UserForm()
     if form.validate_on_submit():
         email = request.form.get("email")

@@ -10,7 +10,8 @@ db_file = Path(__file__).parent.joinpath("paralympics.db")
 engine = create_engine("sqlite:///" + str(db_file), echo=False)
 
 # Read the noc_regions data to a pandas dataframe
-# The following avoids an issue whereby entries with "NA" in the csv file are treated as null values rather than valid text 'NA' which is what we want
+# The following avoids an issue whereby entries with "NA" in the csv file are treated as
+# null values rather than valid text 'NA' which is what we want
 na_values = [
     "",
     "#N/A",
