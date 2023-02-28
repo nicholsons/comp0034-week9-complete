@@ -5,8 +5,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
-# The multiprocessing fork method is not supported on windows
-@pytest.fixture(scope="module", autouse=True)
+@pytest.fixture(scope="module")
 def run_app_win():
     """Runs the Flask app for live server testing on Windows"""
     server = subprocess.Popen(
