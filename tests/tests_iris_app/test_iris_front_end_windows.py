@@ -8,7 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 # Fixtures for Selenium tests on Windows
 # Copied from https://github.com/pytest-dev/pytest-flask/issues/54
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def live_server_win():
     """Live server for running Flask with Windows"""
     server = subprocess.Popen(
