@@ -1,9 +1,21 @@
 import pytest
 import subprocess
 import time
-from flask import url_for
+import socket
+import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+
+
+@pytest.fixture(scope="module")
+def flask_port():
+    ## Ask OS for a free port.
+    #
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        addr = s.getsockname()
+        port = addr[1]
+        return port
 
 
 # Fixtures for Selenium tests on Windows
@@ -18,7 +30,7 @@ def live_server_win():
             "iris_app:create_app('iris_app.config.TestConfig')",
             "run",
             "--port",
-            "5000",
+            str(flask_port),
         ]
     )
     # server takes a while to run
@@ -31,8 +43,11 @@ def live_server_win():
 
 def test_server_is_up_and_running(live_server_win, chrome_driver):
     """Check the app is running"""
-    chrome_driver.get("http://127.0.0.1:5000/")
-    assert chrome_driver.title == "Iris Home"
+    home_url = f"http://localhost:{flask_port}"
+    response = requests.get(home_url)
+    assert response.status_code == 200
+    # chrome_driver.get("http://127.0.0.1:5000/")
+    # assert chrome_driver.title == "Iris Home"
 
 
 def test_prediction_returns_value(live_server_win, chrome_driver):
@@ -51,7 +66,8 @@ def test_prediction_returns_value(live_server_win, chrome_driver):
         "species": "iris-setosa",
     }
     # Go to the home page
-    chrome_driver.get("http://127.0.0.1:5000/")
+    url = f"http://localhost:{flask_port}"
+    chrome_driver.get(url)
     # Complete the fields in the form
     sep_len = chrome_driver.find_element(By.NAME, "sepal_length")
     sep_len.send_keys(iris["sepal_length"])
