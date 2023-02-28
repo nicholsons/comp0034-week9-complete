@@ -24,7 +24,7 @@ def create_app(config_object):
         from . import routes
 
         # Define the models
-        from .models import Event, Region
+        from paralympic_app.models import Event, Region
 
         # Declare the marshamallow-sqlachemy schemas
         from sqlalchemy.orm import configure_mappers

@@ -20,7 +20,7 @@ def init_mp():
         pass
 
 
-# Used for Selenium tests with Mac and pytest-flask
+# Used for Selenium tests with Mac
 @pytest.fixture(scope="session", autouse=True)
 def run_app(app):
     """
