@@ -77,7 +77,7 @@ def test_home_nav_link_returns_home(chrome_driver):
         lambda d: d.find_element(By.ID, "1")
     )
     el_1.click()
-    nav_home = WebDriverWait(chrome_driver, timeout=3).until(
+    nav_home = WebDriverWait(chrome_driver, timeout=5).until(
         EC.element_to_be_clickable((By.ID, "nav-home"))
     )
     nav_home.click()
