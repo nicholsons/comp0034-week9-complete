@@ -11,20 +11,18 @@ from selenium.webdriver.support.wait import WebDriverWait
 # Fixtures for Selenium tests on Windows
 # Copied from https://github.com/pytest-dev/pytest-flask/issues/54
 @pytest.fixture(scope="session")
-def flask_port():
-    """Ask OS for a free port."""
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind(("", 0))
-        addr = s.getsockname()
-        port = addr[1]
-        return port
-
-
-@pytest.fixture(scope="session")
-def live_server_win(app):
+def live_server_win():
     """Live server for running Flask with Windows"""
-    cli = FlaskGroup(app)
-    server = subprocess.Popen(["flask", "run", "--port", 5000])
+    server = subprocess.Popen(
+        [
+            "flask",
+            "--app",
+            "iris_app:create_app('iris_app.config.TestConfig')",
+            "run",
+            "--port",
+            "5000",
+        ]
+    )
     try:
         yield server
     finally:
