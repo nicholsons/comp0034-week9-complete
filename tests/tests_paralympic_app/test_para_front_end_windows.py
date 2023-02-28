@@ -42,7 +42,8 @@ def test_home_page_title(chrome_driver, flask_port):
     THEN the value of the page title should be "Paralympics Home"
     """
     # Change the url if you configured a different port!
-    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
+    url = f"http://localhost:{flask_port}"
+    chrome_driver.get(url)
     chrome_driver.implicitly_wait(3)
     assert chrome_driver.title == "Paralympics Home"
 
@@ -56,7 +57,8 @@ def test_event_detail_page_selected(chrome_driver, flask_port):
     AND the page should contain an element with the id "highlights"
     should be displayed and contain a text value "First Games"
     """
-    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
+    url = f"http://localhost:{flask_port}"
+    chrome_driver.get(url)
     # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
@@ -75,7 +77,8 @@ def test_home_nav_link_returns_home(chrome_driver, flask_port):
     AND then the user clicks on the navbar in the 'Home' link
     THEN the page url should be "http://127.0.0.1:5000/"
     """
-    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
+    url = f"http://localhost:{flask_port}"
+    chrome_driver.get(url)
     # Wait until the element with id="1" is on the page
     # https://www.selenium.dev/documentation/webdriver/waits/
     # and then click on it
@@ -87,5 +90,5 @@ def test_home_nav_link_returns_home(chrome_driver, flask_port):
         EC.element_to_be_clickable((By.ID, "nav-home"))
     )
     nav_home.click()
-    url = chrome_driver.current_url
-    assert url == f"http://127.0.0.1:{flask_port}/"
+    current_url = chrome_driver.current_url
+    assert current_url == url
