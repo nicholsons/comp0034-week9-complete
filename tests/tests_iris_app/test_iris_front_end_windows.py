@@ -7,10 +7,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
 
+# Fixtures for Selenium tests on Windows
+# Copied from https://github.com/pytest-dev/pytest-flask/issues/54
+
+
 @pytest.fixture(scope="module")
 def flask_port():
-    ## Ask OS for a free port.
-    #
+    """Ask OS for a free port."""
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(("", 0))
         addr = s.getsockname()
@@ -18,10 +21,8 @@ def flask_port():
         return port
 
 
-# Fixtures for Selenium tests on Windows
-# Copied from https://github.com/pytest-dev/pytest-flask/issues/54
 @pytest.fixture(scope="module")
-def live_server_win():
+def live_server_win(flask_port):
     """Live server for running Flask with Windows"""
     server = subprocess.Popen(
         [
