@@ -3,6 +3,7 @@ import pytest
 import subprocess
 import socket
 from flask import url_for
+from flask.cli import FlaskGroup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -20,18 +21,10 @@ def flask_port():
 
 
 @pytest.fixture(scope="session")
-def live_server_win(flask_port, app):
+def live_server_win(app):
     """Live server for running Flask with Windows"""
-    server = subprocess.Popen(
-        [
-            "flask",
-            "--app",
-            app,
-            "run",
-            "--port",
-            str(flask_port),
-        ]
-    )
+    cli = FlaskGroup(app)
+    server = subprocess.Popen(["flask", "run", "--port", 5000])
     try:
         yield server
     finally:
