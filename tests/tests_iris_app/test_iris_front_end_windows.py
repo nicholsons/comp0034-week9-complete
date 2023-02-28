@@ -42,7 +42,7 @@ def live_server_win(flask_port):
         server.terminate()
 
 
-def test_server_is_up_and_running(live_server_win, chrome_driver):
+def test_server_is_up_and_running(live_server_win, chrome_driver, flask_port):
     """Check the app is running"""
     home_url = f"http://localhost:{flask_port}"
     response = requests.get(home_url)
@@ -51,7 +51,7 @@ def test_server_is_up_and_running(live_server_win, chrome_driver):
     # assert chrome_driver.title == "Iris Home"
 
 
-def test_prediction_returns_value(live_server_win, chrome_driver):
+def test_prediction_returns_value(live_server_win, chrome_driver, flask_port):
     """
     GIVEN a live_server with the iris predictor app
     WHEN the url for the home page is entered
