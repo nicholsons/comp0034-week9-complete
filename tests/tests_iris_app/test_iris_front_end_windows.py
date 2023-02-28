@@ -1,7 +1,7 @@
 import requests
 import pytest
 import subprocess
-import socket
+import time
 from flask import url_for
 from flask.cli import FlaskGroup
 from selenium.webdriver.common.by import By
@@ -23,6 +23,8 @@ def live_server_win():
             "5000",
         ]
     )
+    # server takes a while to run
+    time.sleep(20)
     try:
         yield server
     finally:
