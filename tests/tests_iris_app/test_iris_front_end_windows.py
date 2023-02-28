@@ -1,4 +1,3 @@
-import requests
 import pytest
 import subprocess
 import time
@@ -34,7 +33,6 @@ def test_server_is_up_and_running(live_server_win, chrome_driver):
     """Check the app is running"""
     chrome_driver.get("http://127.0.0.1:5000/")
     assert chrome_driver.title == "Iris Home"
-    assert chrome_driver.status_code == 200
     # response = requests.get(url_for("index", _external=True))
     # assert b"Iris Home" in response.content
     # assert response.status_code == 200
