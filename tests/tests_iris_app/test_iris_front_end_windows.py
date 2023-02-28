@@ -33,9 +33,6 @@ def test_server_is_up_and_running(live_server_win, chrome_driver):
     """Check the app is running"""
     chrome_driver.get("http://127.0.0.1:5000/")
     assert chrome_driver.title == "Iris Home"
-    # response = requests.get(url_for("index", _external=True))
-    # assert b"Iris Home" in response.content
-    # assert response.status_code == 200
 
 
 def test_prediction_returns_value(live_server_win, chrome_driver):
@@ -53,8 +50,8 @@ def test_prediction_returns_value(live_server_win, chrome_driver):
         "petal_width": 0.1,
         "species": "iris-setosa",
     }
-    # Go to the home page, you can use the Flask url_for to avoid hard-coding the URL
-    chrome_driver.get(url_for("index", _external=True))
+    # Go to the home page
+    chrome_driver.get("http://127.0.0.1:5000/")
     # Complete the fields in the form
     sep_len = chrome_driver.find_element(By.NAME, "sepal_length")
     sep_len.send_keys(iris["sepal_length"])
