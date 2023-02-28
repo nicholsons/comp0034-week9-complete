@@ -14,9 +14,9 @@ def run_app_win():
             "flask",
             "--app",
             "paralympic_app:create_app('paralympic_app.config.TestConfig')",
+            "run",
             "--port",
             "5000",
-            "run",
         ]
     )
     try:

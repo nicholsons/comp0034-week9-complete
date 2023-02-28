@@ -247,5 +247,5 @@ def get_event(event_id):
     event = db.session.execute(
         db.select(Event).filter_by(event_id=event_id)
     ).scalar_one_or_none()
-    result = events_schema.dump(event)
+    result = event_schema.dump(event)
     return result
