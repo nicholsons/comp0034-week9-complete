@@ -1,12 +1,23 @@
 import subprocess
 import pytest
+import socket
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
 @pytest.fixture(scope="module")
-def run_app_win():
+def flask_port():
+    """Ask OS for a free port."""
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        addr = s.getsockname()
+        port = addr[1]
+        return port
+
+
+@pytest.fixture(scope="module")
+def run_app_win(flask_port):
     """Runs the Flask app for live server testing on Windows"""
     server = subprocess.Popen(
         [
@@ -15,7 +26,7 @@ def run_app_win():
             "paralympic_app:create_app('paralympic_app.config.TestConfig')",
             "run",
             "--port",
-            "5000",
+            str(flask_port),
         ]
     )
     try:
@@ -24,27 +35,28 @@ def run_app_win():
         server.terminate()
 
 
-def test_home_page_title(chrome_driver):
+def test_home_page_title(chrome_driver, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed
     THEN the value of the page title should be "Paralympics Home"
     """
     # Change the url if you configured a different port!
-    chrome_driver.get("http://127.0.0.1:5000/")
+    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
     chrome_driver.implicitly_wait(3)
     assert chrome_driver.title == "Paralympics Home"
 
 
-def test_event_detail_page_selected(chrome_driver):
+def test_event_detail_page_selected(chrome_driver, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed
     AND the user clicks on the event with the id="1"
     THEN a page with the title "Rome" should be displayed
-    AND the page should contain an element with the id "highlights" should be displayed and contain a text value "First Games"
+    AND the page should contain an element with the id "highlights"
+    should be displayed and contain a text value "First Games"
     """
-    chrome_driver.get("http://127.0.0.1:5000/")
+    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
     # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
@@ -55,7 +67,7 @@ def test_event_detail_page_selected(chrome_driver):
     assert "First Games" in text
 
 
-def test_home_nav_link_returns_home(chrome_driver):
+def test_home_nav_link_returns_home(chrome_driver, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -63,8 +75,10 @@ def test_home_nav_link_returns_home(chrome_driver):
     AND then the user clicks on the navbar in the 'Home' link
     THEN the page url should be "http://127.0.0.1:5000/"
     """
-    chrome_driver.get("http://127.0.0.1:5000/")
-    # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
+    chrome_driver.get(f"http://127.0.0.1:{flask_port}/")
+    # Wait until the element with id="1" is on the page
+    # https://www.selenium.dev/documentation/webdriver/waits/
+    # and then click on it
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
     )
@@ -74,4 +88,4 @@ def test_home_nav_link_returns_home(chrome_driver):
     )
     nav_home.click()
     url = chrome_driver.current_url
-    assert url == "http://127.0.0.1:5000/"
+    assert url == f"http://127.0.0.1:{flask_port}/"
