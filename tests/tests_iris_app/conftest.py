@@ -1,23 +1,15 @@
 import pytest
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
-from iris_app import create_app
+from iris_app import create_app, config
 
 
 # Used for the Flask routes tests and the Selenium tests
 @pytest.fixture(scope="session")
 def app():
     """Create a Flask app configured for testing"""
-    app = create_app()
-    app.config.update(
-        {
-            "TESTING": True,
-            "SQLALCHEMY_ECHO": True,
-            "WTF_CSRF_ENABLED": False,
-            "SERVER_NAME": "127.0.0.1:5000",
-            "PRESERVE_CONTEXT_ON_EXCEPTION": False,
-        }
-    )
+    app = create_app(config.TestConfig)
+
     yield app
 
 

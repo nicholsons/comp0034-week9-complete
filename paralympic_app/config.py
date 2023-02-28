@@ -37,3 +37,4 @@ class TestConfig(Config):
     SQLALCHEMY_ECHO = True
     WTF_CSRF_ENABLED = False
     SERVER_NAME = "127.0.0.1:5000"
+    # PRESERVE_CONTEXT_ON_EXCEPTION = False
