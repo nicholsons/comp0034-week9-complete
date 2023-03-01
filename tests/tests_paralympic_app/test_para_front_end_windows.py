@@ -43,6 +43,7 @@ def test_home_page_title(chrome_driver, flask_port):
     """
     # Change the url if you configured a different port!
     url = f"http://localhost:{flask_port}"
+    print(url)
     chrome_driver.get(url)
     chrome_driver.implicitly_wait(3)
     assert chrome_driver.title == "Paralympics Home"
@@ -59,7 +60,8 @@ def test_event_detail_page_selected(chrome_driver, flask_port):
     """
     url = f"http://localhost:{flask_port}"
     chrome_driver.get(url)
-    # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
+    # Wait until the element with id="1" is on the page
+    # https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
     )
