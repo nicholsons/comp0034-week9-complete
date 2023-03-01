@@ -58,7 +58,7 @@ def test_event_detail_page_selected(chrome_driver, flask_port):
     AND the page should contain an element with the id "highlights"
     should be displayed and contain a text value "First Games"
     """
-    url = f"http://localhost:{flask_port_para}"
+    url = f"http://localhost:{flask_port}"
     chrome_driver.get(url)
     # Wait until the element with id="1" is on the page
     # https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
