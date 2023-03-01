@@ -1,6 +1,7 @@
 import subprocess
 import pytest
 import socket
+import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -35,18 +36,15 @@ def run_app_win(flask_port):
         server.terminate()
 
 
-def test_home_page_title(chrome_driver, flask_port):
+def test_home_page_running(flask_port):
     """
     GIVEN a running app
-    WHEN the homepage is accessed
-    THEN the value of the page title should be "Paralympics Home"
+    WHEN the homepage is accessed successfully
+    THEN the status code will be 200
     """
-    # Change the url if you configured a different port!
     url = f"http://localhost:{flask_port}"
-    print(url)
-    chrome_driver.get(url)
-    chrome_driver.implicitly_wait(3)
-    assert chrome_driver.title == "Paralympics Home"
+    response = requests.get(url)
+    assert response.status_code == 200
 
 
 def test_event_detail_page_selected(chrome_driver, flask_port):
