@@ -37,7 +37,9 @@ def test_add_region(test_client, region, region_json):
     """
     GIVEN a Region model
     WHEN the HTTP POST request is made to /noc
-    THEN a new region should be inserted in the database so there is 1 more row; and the response returned with the new region in JSON format
+    THEN a new region should be inserted in the database
+    so there is 1 more row; and the response returned with
+    the new region in JSON format
     """
     # Check if the region exists, it does then delete it
     exists = db.session.execute(

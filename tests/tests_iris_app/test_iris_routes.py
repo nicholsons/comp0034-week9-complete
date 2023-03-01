@@ -52,6 +52,9 @@ def test_new_user_created_when_form_submitted(test_client):
     THEN the page should return a message "You are registered!"
     AND the text of the email should be on the page
     AND the status code should be 200 OK
+
+    TODO: Create a fixture for the database that includes a finaliser
+    that deletes testing entries from the database
     """
 
     form_data = {"email": "joshuany@jamble.com", "password": "birthday"}
@@ -61,7 +64,6 @@ def test_new_user_created_when_form_submitted(test_client):
     assert b"joshuany@jamble.com" in response.data
 
     # Delete the new user from the database
-    # It would be better to handle this with a fixture for the database that includes a finaliser that deletes testing entries from the database
     exists = db.session.execute(
         db.select(User).filter_by(email="joshuany@jamble.com")
     ).scalar()

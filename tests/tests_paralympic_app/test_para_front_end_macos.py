@@ -50,10 +50,12 @@ def test_event_detail_page_selected(chrome_driver):
     WHEN the homepage is accessed
     AND the user clicks on the event with the id="1"
     THEN a page with the title "Rome" should be displayed
-    AND the page should contain an element with the id "highlights" should be displayed and contain a text value "First Games"
+    AND the page should contain an element with the id "highlights"
+    should be displayed and contain a text value "First Games"
     """
     chrome_driver.get("http://127.0.0.1:5000/")
-    # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
+    # Wait until element with id="1" is on the page then click it
+    # https://www.selenium.dev/documentation/webdriver/waits/
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
     )
@@ -72,7 +74,8 @@ def test_home_nav_link_returns_home(chrome_driver):
     THEN the page url should be "http://127.0.0.1:5000/"
     """
     chrome_driver.get("http://127.0.0.1:5000/")
-    # Wait until the element with id="1" is on the page  https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
+    # Wait until element with id="1" is on the page then click
+    # https://www.selenium.dev/documentation/webdriver/waits/
     el_1 = WebDriverWait(chrome_driver, timeout=3).until(
         lambda d: d.find_element(By.ID, "1")
     )
