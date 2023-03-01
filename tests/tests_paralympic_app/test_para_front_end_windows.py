@@ -44,7 +44,7 @@ def test_home_page_running(run_app_win, flask_port):
     """
     # localhost has the IP address 127.0.0.1, which refers
     # back to your own server on your local computer
-    url = f"http://localhost:{flask_port}"
+    url = f"http://localhost:{flask_port}/"
     response = requests.get(url)
     assert response.status_code == 200
 
@@ -58,7 +58,7 @@ def test_event_detail_page_selected(run_app_win, chrome_driver, flask_port):
     AND the page should contain an element with the id "highlights"
     should be displayed and contain a text value "First Games"
     """
-    url = f"http://localhost:{flask_port}"
+    url = f"http://localhost:{flask_port}/"
     chrome_driver.get(url)
     # Wait until the element with id="1" is on the page
     # https://www.selenium.dev/documentation/webdriver/waits/ and then click on it
@@ -80,7 +80,7 @@ def test_home_nav_link_returns_home(run_app_win, chrome_driver, flask_port):
     THEN the page url should be "http://127.0.0.1:{flask_port}/"
 
     """
-    url = f"http://localhost:{flask_port}"
+    url = f"http://localhost:{flask_port}/"
     chrome_driver.get(url)
     # Wait until the element with id="1" is on the page
     # https://www.selenium.dev/documentation/webdriver/waits/
