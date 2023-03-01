@@ -100,6 +100,6 @@ def register():
         new_user = User(email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
-        text = f"<p>You are registered! {repr(new_user)}</p>"
+        text = f"<p id='registered'>You are registered! {repr(new_user)}</p>"
         return text
     return render_template("register.html", form=form)

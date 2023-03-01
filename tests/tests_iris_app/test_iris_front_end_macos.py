@@ -4,7 +4,12 @@ import pytest
 from flask import url_for
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.relative_locator import locate_with
+from selenium.webdriver.support import expected_conditions as EC
+
+from tests.tests_iris_app.conftest import (
+    generate_random_email,
+    generate_random_password,
+)
 
 
 # Used for the Selenium tests with MacOS
@@ -70,32 +75,42 @@ def test_register_form_on_submit_returns(live_server, chrome_driver):
     GIVEN a live_server with the iris predictor app
     WHEN the url for the register is entered
     AND valid details are entered in the email and password fields
-    AND the form is submitted
+    AND the form is submitted using the button witd id="register-btn"
     THEN the page content should include the words "You are registered!" and the email address
     """
     # Go to the register page
     chrome_driver.get(url_for("register", _external=True))
     # Complete the fields in the form
-    email_adress = "test@test.com"
+    # I created a couple of functions in conftest
+    random_email = generate_random_email()
+    random_pwd = generate_random_password()
     email = chrome_driver.find_element(By.ID, "email")
-    email.send_keys(email_adress)
+    email.send_keys(random_email)
     password = chrome_driver.find_element(By.ID, "password")
-    password.send_keys("testpw")
-    # The submit button doesn't have an `id=` but is below the password element
-    # https://www.selenium.dev/documentation/webdriver/elements/locators/#below
-    submit_button = chrome_driver.find_element(
-        locate_with(By.TAG_NAME, "input").below({By.ID: "password"})
-    )
+    password.send_keys(random_pwd)
+    submit_button = chrome_driver.find_element(By.ID, "register-btn")
     submit_button.click()
-    p_tag = chrome_driver.find_element(By.TAG_NAME, "p")
+    # Wait for the success text to appear on the page
+    p_tag = WebDriverWait(chrome_driver, timeout=3).until(
+        lambda d: d.find_element(By.ID, "registered")
+    )
     assert "You are registered!" in p_tag.text
-    assert email_adress in p_tag.text
+    assert random_email in p_tag.text
 
 
 def test_register_link_from_nav(live_server, chrome_driver):
     """
     GIVEN a live_server with the iris predictor app
     WHEN the url for the homepage is entered
-    THEN the page title should equal "Iris Home"
+    WHEN the menu link for the register is clicked
+    THEN the current url should be that for the register page
     """
-    pass
+    chrome_driver.get(url_for("index", _external=True))
+    # Finds using xpath https://www.testgrid.io/blog/xpath-in-chrome-for-selenium/
+    register_nav = chrome_driver.find_element(
+        By.XPATH, "//a[@href='/register']"
+    )
+    register_nav.click()
+    current_url = chrome_driver.current_url
+    register_url = url_for("register", _external=True)
+    assert current_url == register_url

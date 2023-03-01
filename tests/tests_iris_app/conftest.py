@@ -1,3 +1,5 @@
+import random
+import secrets
 import pytest
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
@@ -31,7 +33,7 @@ def chrome_driver():
         For running on your computer: `headless` to be commented out
     """
     options = Options()
-    options.add_argument("--headless")
+    # options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
     driver = Chrome(options=options)
     driver.maximize_window()
@@ -53,3 +55,36 @@ def form_data():
         "petal_width": 1.4,
     }
     yield form_data_versicolor
+
+
+def generate_random_email():
+    """Create random email addresses for testing with random domain names"""
+    valid_chars = "abcdefghijklmnopqrstuvwxyz1234567890"
+    valid_doms = "abcdefghijklmnopqrstuvwxyz"
+    login = ""
+    server = ""
+    dom = ""
+    login_len = random.randint(4, 15)
+    server_len = random.randint(3, 9)
+    dom_len = random.randint(2, 3)
+    for i in range(login_len):
+        pos = random.randint(0, len(valid_chars) - 1)
+        login = login + valid_chars[pos]
+    if login[0].isnumeric():
+        pos = random.randint(0, len(valid_chars) - 10)
+        login = valid_chars[pos] + login
+    for i in range(server_len):
+        pos = random.randint(0, len(valid_doms) - 1)
+        server = server + valid_doms[pos]
+    for i in range(dom_len):
+        pos = random.randint(0, len(valid_doms) - 1)
+        dom = dom + valid_doms[pos]
+    email = login + "@" + server + "." + dom
+    return email
+
+
+def generate_random_password():
+    """Generate random password using secrets"""
+    password_len = random.randint(6, 15)
+    password = secrets.token_urlsafe(password_len)
+    return password

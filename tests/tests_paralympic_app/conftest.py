@@ -1,9 +1,8 @@
 import pytest
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver import Chrome
-from paralympic_app import create_app
+from paralympic_app import create_app, config
 from paralympic_app.models import Region
-from paralympic_app import config
 
 
 # Used for Flask route tests and Selenium tests
