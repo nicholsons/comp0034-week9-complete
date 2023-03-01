@@ -36,7 +36,7 @@ def run_app_win(flask_port):
         server.terminate()
 
 
-def test_home_page_running(flask_port):
+def test_home_page_running(run_app_win, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed successfully
@@ -49,7 +49,7 @@ def test_home_page_running(flask_port):
     assert response.status_code == 200
 
 
-def test_event_detail_page_selected(chrome_driver, flask_port):
+def test_event_detail_page_selected(run_app_win, chrome_driver, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed
@@ -71,7 +71,7 @@ def test_event_detail_page_selected(chrome_driver, flask_port):
     assert "First Games" in text
 
 
-def test_home_nav_link_returns_home(chrome_driver, flask_port):
+def test_home_nav_link_returns_home(run_app_win, chrome_driver, flask_port):
     """
     GIVEN a running app
     WHEN the homepage is accessed
