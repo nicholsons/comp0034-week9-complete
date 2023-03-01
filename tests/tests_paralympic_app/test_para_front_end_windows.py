@@ -1,7 +1,8 @@
 import subprocess
-import pytest
 import socket
+from time import sleep
 import requests
+import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -30,6 +31,7 @@ def run_app_win(flask_port):
             str(flask_port),
         ]
     )
+    sleep(5)
     try:
         yield server
     finally:
