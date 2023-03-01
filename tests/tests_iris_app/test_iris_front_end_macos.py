@@ -70,7 +70,9 @@ def test_prediction_returns_value(live_server, chrome_driver):
     assert iris["species"] in pt.text
 
 
-def test_register_form_on_submit_returns(live_server, chrome_driver):
+def test_register_form_on_submit_returns(
+    live_server, chrome_driver, random_email, random_password
+):
     """
     GIVEN a live_server with the iris predictor app
     WHEN the url for the register is entered
@@ -80,14 +82,11 @@ def test_register_form_on_submit_returns(live_server, chrome_driver):
     """
     # Go to the register page
     chrome_driver.get(url_for("register", _external=True))
-    # Complete the fields in the form
-    # I created a couple of functions in conftest
-    random_email = generate_random_email()
-    random_pwd = generate_random_password()
+    # Complete the fields in the form, uses fixtures for random email and password
     email = chrome_driver.find_element(By.ID, "email")
     email.send_keys(random_email)
     password = chrome_driver.find_element(By.ID, "password")
-    password.send_keys(random_pwd)
+    password.send_keys(random_password)
     submit_button = chrome_driver.find_element(By.ID, "register-btn")
     submit_button.click()
     # Wait for the success text to appear on the page

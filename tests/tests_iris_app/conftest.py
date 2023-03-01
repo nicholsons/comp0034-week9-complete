@@ -33,7 +33,7 @@ def chrome_driver():
         For running on your computer: `headless` to be commented out
     """
     options = Options()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     options.add_argument("--window-size=1920,1080")
     driver = Chrome(options=options)
     driver.maximize_window()
@@ -88,3 +88,15 @@ def generate_random_password():
     password_len = random.randint(6, 15)
     password = secrets.token_urlsafe(password_len)
     return password
+
+
+@pytest.fixture(scope="function")
+def random_email():
+    """returns a random email as a fixture"""
+    return generate_random_email()
+
+
+@pytest.fixture(scope="function")
+def random_password():
+    """returns a random password as a fixture"""
+    return generate_random_password()

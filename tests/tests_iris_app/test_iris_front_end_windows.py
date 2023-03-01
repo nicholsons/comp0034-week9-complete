@@ -65,7 +65,7 @@ def test_prediction_returns_value(live_server_win, chrome_driver, flask_port):
         "species": "iris-setosa",
     }
     # Go to the home page
-    url = f"http://localhost:{flask_port}"
+    url = f"http://localhost:{flask_port}/"
     chrome_driver.get(url)
     # Complete the fields in the form
     sep_len = chrome_driver.find_element(By.NAME, "sepal_length")
@@ -86,7 +86,9 @@ def test_prediction_returns_value(live_server_win, chrome_driver, flask_port):
     assert iris["species"] in pt.text
 
 
-def test_register_form_on_submit_returns(live_server_win, chrome_driver):
+def test_register_form_on_submit_returns(
+    live_server_win, chrome_driver, random_email, random_password, flask_port
+):
     """
     GIVEN a live_server with the iris predictor app
     WHEN the url for the register is entered
@@ -94,13 +96,38 @@ def test_register_form_on_submit_returns(live_server_win, chrome_driver):
     AND the form is submitted
     THEN the page content should include the words "You are registered!" and the email address
     """
-    pass
+    # Go to the register page
+    url = f"http://localhost:{flask_port}/register"
+    chrome_driver.get(url)
+    # Complete the fields in the form, use fixtures for random email and password
+    email = chrome_driver.find_element(By.ID, "email")
+    email.send_keys(random_email)
+    password = chrome_driver.find_element(By.ID, "password")
+    password.send_keys(random_password)
+    submit_button = chrome_driver.find_element(By.ID, "register-btn")
+    submit_button.click()
+    # Wait for the success text to appear on the page
+    p_tag = WebDriverWait(chrome_driver, timeout=3).until(
+        lambda d: d.find_element(By.ID, "registered")
+    )
+    assert "You are registered!" in p_tag.text
+    assert random_email in p_tag.text
 
 
-def test_register_link_from_nav(live_server_win, chrome_driver):
+def test_register_link_from_nav(live_server_win, chrome_driver, flask_port):
     """
-    GIVEN a live_server with the iris predictor app
+    GIVEN a live server with the iris predictor app
     WHEN the url for the homepage is entered
-    THEN the page title should equal "Iris Home"
+    WHEN the menu link for the register is clicked
+    THEN the current url should be that for the register page
     """
-    pass
+    url = f"http://localhost:{flask_port}/"
+    chrome_driver.get(url)
+    # Finds using xpath https://www.testgrid.io/blog/xpath-in-chrome-for-selenium/
+    register_nav = chrome_driver.find_element(
+        By.XPATH, "//a[@href='/register']"
+    )
+    register_nav.click()
+    current_url = chrome_driver.current_url
+    register_url = f"http://localhost:{flask_port}/register"
+    assert current_url == register_url
