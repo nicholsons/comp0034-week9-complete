@@ -23,12 +23,12 @@ def create_app(config_object):
         from . import routes
 
         # Define the models
-        from paralympic_app.models import Event, Region
+        # from paralympic_app.models import Event, Region
 
         # Declare the marshamallow-sqlachemy schemas
-        from sqlalchemy.orm import configure_mappers
+        # from sqlalchemy.orm import configure_mappers
 
-        configure_mappers()
+        # configure_mappers()
 
     return app
 
@@ -39,3 +39,6 @@ def initialize_extensions(app):
     db.init_app(app)
     # Flask-Marshmallow
     ma.init_app(app)
+
+
+from paralympic_app.models import Event, Region
