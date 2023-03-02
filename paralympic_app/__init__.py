@@ -22,13 +22,7 @@ def create_app(config_object):
         # Include the routes from routes.py
         from . import routes
 
-        # Define the models
-        # from paralympic_app.models import Event, Region
-
-        # Declare the marshamallow-sqlachemy schemas
-        # from sqlalchemy.orm import configure_mappers
-
-        # configure_mappers()
+        db.create_all()
 
     return app
 
@@ -41,4 +35,5 @@ def initialize_extensions(app):
     ma.init_app(app)
 
 
+# At end to prevent circular imports
 from paralympic_app.models import Event, Region
